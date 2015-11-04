@@ -1,3 +1,7 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/0qcjrsefl9g9b9xn?svg=true)](https://ci.appveyor.com/project/beefarino/seeshell)
+
+[![Module Zip](https://ci.appveyor.com/app/images/artifact-zip.png)Download Module Zip](https://ci.appveyor.com/project/beefarino/seeshell/build/artifacts)
+
 # SeeShell
 
 SeeShell is a simple data visualization module for PowerShell that currently supports Charts.
