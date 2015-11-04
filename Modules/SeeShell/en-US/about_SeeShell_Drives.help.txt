@@ -1,0 +1,187 @@
+﻿TOPIC
+    about_SeeShell_Drives
+
+SHORT DESCRIPTION
+    SeeShell adds custom PowerShell drives to your session.  These
+    drives provide easy access to the visualizations and data sources
+    you've created.
+
+LONG DESCRIPTION
+    The visualizations you create are accessible from special PowerShell
+    drives mounted by SeeShell.  Each drive contains references to one
+    type of visualization, such as all the charts you have created
+    during the current session.
+
+    For a complete list of the drives created by SeeShell, type:
+
+	get-psdrive | where {$_.provider -match 'SeeShell'}
+
+    The table below outlines the name, purpose, and contents of each
+    SeeShell drive.
+
+    +-----------------------+-------------------------------------------------+
+    | Drive Path            | Description                                     |
+    |-----------------------|-------------------------------------------------|
+    |                       |                                                 |
+    | Charts:/              | Contains references to all chart visualizations |
+    |                       | created in the current PowerShell session.      |
+    |                       | Each item in the drive root references a chart  |
+    |                       | visualization by its name;  each of these chart |
+    |                       | items is a container for the individual series  |
+    |                       | plotted by the chart.                           |
+    |                       |                                                 |
+    | DataSources:/         | Contains references to all data sources in the  |
+    |                       | current PowerShell session, including anonymous |
+    |                       | data sources created internally by SeeShell.    |
+    |                       | Each data source item is also a container for   |
+    |                       | the series definitions applied to the data      |
+    |                       | source.  In turn, these series items are        |
+    |                       | containers for the data range definitions they  |
+    |                       | contain.                                        |
+    |                       |                                                 |
+    | Grids:/               | Contains references to all grid visualizations  |
+    |                       | created in the current PowerShell session.      |
+    |                       | Each item in the drive root references a grid   |
+    |                       | visualization by its name;  each of these grid  |
+    |                       | items is a container for the individual series  |
+    |                       | plotted by the grid.                            |
+    |                       |                                                 |
+    | Timelines:/           | Contains references to all timeline             |
+    |                       | visualizations created in the current           |
+    |                       | PowerShell session. Each item in the drive root |
+    |                       | references a timeline visualization by its      |
+    |                       | name;  each of these timeline items is a        |
+    |                       | container for the individual series plotted by  |
+    |                       | the timeline.                                   |
+    |                       |                                                 |
+    +-----------------------+-------------------------------------------------+
+
+TOPOLOGY
+
+    The directory hierarchy of the SeeShell providers are outlined
+    below.  Items listed [in brackets] represent variable content that
+    will change based on your environment.  For example, the contents of
+    the Charts:/ path node change based on the charts created in the
+    current session.
+
+      Charts:\
+      ------ [charts]\
+      -------------- [chart series]\
+      ---------------------------- [series ranges]\
+
+      Grids:\
+      ----- [grids]\
+      ------------ [grid series]\
+      ------------------------- [series ranges]\
+
+      Timelines:\
+      --------- [timelines]\
+      -------------------- [timeline series]\
+      ------------------------------------- [series ranges]\
+
+      DataSources:\
+      ----------- [datasources]\
+      ------------------------ [data series]\
+      ------------------------------------- [series ranges]\
+
+      Provider Cmdlet Support
+      -----------------------
+      You can determine what operations a path node supports by
+      inspecting its encoded item operations string, contained in the
+      item's SSItemMode property.
+
+      For example, using the get-childitem cmdlet to return a list of
+      available nodes will also tell you what cmdlets those nodes
+      support.  This example shows the operations supported by
+      datasource items:
+
+        C:\PS> dir datasources:/
+
+
+        PSPath                : SeeShell.DataSources::DataSources:\test
+        PSParentPath          : SeeShell.DataSources::DataSources:\
+        PSChildName           : _b1982c7f91bd4e5c9541089ace01d444
+        PSDrive               : DataSources
+        PSProvider            : SeeShell.DataSources
+        PSIsContainer         : True
+        SSItemMode            : d+~<      
+        ...
+
+
+      The cmdlets supported by each node are encoded in the SSItemMode
+      property as follows:
+
+	d : the node can contain child elements, and you can use the
+	    set-location and get-childitems cmdlets on this node.
+
+        + : the node supports the new-item cmdlet.
+
+        ~ : the node supports the remove-item cmdlet.
+
+        &lt; : the node supports the get-item cmdlet.
+
+        &gt; : the node supports the set-item cmdlet.
+
+        0 : the node supports the clear-item cmdlet.
+
+        c : the node supports the copy-item cmdlet.
+
+        m : the node supports the move-item cmdlet.
+
+        r : the node supports the rename-item cmdlet.
+
+        i : the node supports the invoke-item cmdlet.
+
+
+EXAMPLES
+
+ -------------------------- EXAMPLE 1 --------------------------
+
+ C:\PS>dir charts:
+
+
+ Description
+ -----------
+ This example lists all chart visualizations created in the current
+ PowerShell session.
+
+
+ -------------------------- EXAMPLE 2 --------------------------
+
+ C:\PS>dir charts:/Files
+
+
+ Description
+ -----------
+ This example lists all series used in the chart visualization named
+ Files.
+
+ -------------------------- EXAMPLE 3 --------------------------
+
+ C:\PS>dir datasources:/
+
+
+ Description
+ -----------
+ This example lists all datasources created in the current PowerShell
+ session.
+
+ Note that SeeShell creates datasources internally, so this list may
+ contain items you do not recognize.  
+
+ -------------------------- EXAMPLE 4 --------------------------
+
+ C:\PS>dir datasources:/MyDataSource
+
+
+ Description
+ -----------
+ This example lists all of the series currently defined on the data
+ source MyDataSource. 
+
+SEE ALSO    
+    about_SeeShell
+    about_SeeShell_Charts
+    about_SeeShell_DataSources
+    about_SeeShell_Grids
+    about_SeeShell_Timelines

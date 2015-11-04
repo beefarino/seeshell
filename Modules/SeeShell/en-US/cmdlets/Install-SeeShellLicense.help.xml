@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Install-SeeShellLicense</command:name>
+      <maml:description>
+        <maml:para>Installs a SeeShell license from a string, file, or the clipboard.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Install</command:verb>
+      <command:noun>SeeShellLicense</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Installs a SeeShell license from a string, file, or the clipboard.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <command:name>Install-SeeShellLicense</command:name>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+          <maml:name>InputObject</maml:name>
+          <maml:description>
+            <maml:para>The license string, the path of the file containing the license string, or a file object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Object</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>Specify this parameter to avoid being prompted to overwrite an existing license.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="0">
+        <maml:name>InputObject</maml:name>
+        <maml:description>
+                      <maml:para>The license string, the path of the file containing the license string, or a file object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>Specify this parameter to avoid being prompted to overwrite an existing license.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>Specify no pipeline input to use the current clipboard data as your SeeShell license.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>Specify no pipeline input to use the current clipboard data as your SeeShell license.</maml:para>
+          </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>A string containing the SeeShell license, or the path of a file that contains the SeeShell license.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>A string containing the SeeShell license, or the path of a file that contains the SeeShell license.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>File</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>A file that contains the SeeShell license.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>A file that contains the SeeShell license.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None.</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>This cmdlet does not produce pipeline output.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>This cmdlet does not produce pipeline output.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para>The clipboard can only be read when PowerShell is started in STA mode.  If you attempt to read clipboard data in MTA mode, warnings and errors will result.  For more information, type: powershell -help.</maml:para>
+          <maml:para />
+          <maml:para />
+      </maml:alert>
+      <maml:alert>
+        <maml:para>SeeShell is licensed on a per-user basis.  This cmdlet will only affect the license for the current user.</maml:para>
+          <maml:para />
+          <maml:para />
+      </maml:alert>
+      <maml:alert>
+        <maml:para>The license string is isolated from surrounding data using special text markers.  The license string must exist on a single line between the markers BEGIN_SEESHELL_LICENSE and END_SEESHELL_LICENSE.  For example:</maml:para>
+        <maml:para>...</maml:para>
+        <maml:para>BEGIN_SEESHELL_LICENSE</maml:para>
+        <maml:para>abcdef0123456789</maml:para>
+        <maml:para>END_SEESHELL_LICENSE</maml:para>
+        <maml:para>...</maml:para>        
+          <maml:para />
+          <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 1 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>install-seeshelllicense</dev:code>
+          <dev:remarks>
+            <maml:para>Attempts to install a SeeShell license from the current contents of the clipboard.  Note this will only work if PowerShell was started with the -sta switch.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 2 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>install-seeshelllicense 'abcdef01234356789'</dev:code>
+          <dev:remarks>
+            <maml:para>Installs the string "abcdef0123456789" as the SeeShell license for the current user.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 3 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>install-seeshelllicense '~\seeshell.license'</dev:code>
+          <dev:remarks>
+            <maml:para>Installs the SeeShell license from the file named "seeshell.license" located in the user's home folder.</maml:para>
+            <maml:para />
+            <maml:para>Once this cmdlet completes, the file at ~\seeshell.license can be deleted without affecting the license state of SeeShell.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 4 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>ls *.license | install-seeshelllicense</dev:code>
+          <dev:remarks>
+            <maml:para>Installs the SeeShell license from the file that ends with extension ".license" located in the current directory.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>        
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>about_SeeShell_License</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Test-SeeShellLicense</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>

@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="CodeOwls.SeeShell.Visualizations.Views.VisualizationStateSummaryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModels="clr-namespace:CodeOwls.SeeShell.Visualizations.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ViewModels:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <BitmapImage x:Key="ExportImageEnabled"
+            UriSource="pack://application:,,,/CodeOwls.SeeShell.Visualizations;component/Resources/Web commerce_Download_24.png"
+            DecodePixelWidth="24" />
+        <BitmapImage x:Key="ExportImageHover"
+            UriSource="pack://application:,,,/CodeOwls.SeeShell.Visualizations;component/Resources/Web commerce_Download_Hovered_24.png"
+            DecodePixelWidth="24" />
+        <BitmapImage x:Key="ExportImageDisabled"
+            UriSource="pack://application:,,,/CodeOwls.SeeShell.Visualizations;component/Resources/Web commerce_Download_Disabled_24.png"
+            DecodePixelWidth="24" />
+        <BitmapImage x:Key="ShowOrHideRecordsImageEnabled"
+            UriSource="pack://application:,,,/CodeOwls.SeeShell.Visualizations;component/Resources/Software and computing_Alerts_24.png"
+            DecodePixelWidth="24" />
+        <BitmapImage x:Key="ShowOrHideRecordsImageHover"
+            UriSource="pack://application:,,,/CodeOwls.SeeShell.Visualizations;component/Resources/Software and computing_Alerts_Hovered_24.png"
+            DecodePixelWidth="24" />
+        <BitmapImage x:Key="ShowOrHideRecordsImageDisabled"
+            UriSource="pack://application:,,,/CodeOwls.SeeShell.Visualizations;component/Resources/Software and computing_Alerts_Disabled_24.png"
+            DecodePixelWidth="24" />
+        
+        <Style x:Key="ExportImageButtonImageStyle">
+            <Setter Property="Image.Source" Value="{StaticResource ExportImageEnabled}"/>
+            <Setter Property="Image.Width" Value="24"/>
+            <Setter Property="Image.Height" Value="24"/>
+            <Style.Triggers>
+                        <Trigger Property="Image.IsMouseOver" Value="true">
+                            <Setter Property="Image.Source" Value="{StaticResource ExportImageHover}" />
+                        </Trigger>
+                <Trigger Property="Image.IsEnabled" Value="false">
+                    <Setter Property="Image.Source" Value="{StaticResource ExportImageDisabled}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ShowOrHideButtonImageStyle">
+            <Setter Property="Image.Source" Value="{StaticResource ShowOrHideRecordsImageEnabled}"/>
+            <Setter Property="Image.Width" Value="24"/>
+            <Setter Property="Image.Height" Value="24"/>
+            <Style.Triggers>
+                <Trigger Property="Image.IsMouseOver" Value="true">
+                    <Setter Property="Image.Source" Value="{StaticResource ShowOrHideRecordsImageHover}" />
+                </Trigger>
+                <Trigger Property="Image.IsEnabled" Value="false">
+                    <Setter Property="Image.Source" Value="{StaticResource ShowOrHideRecordsImageDisabled}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top" IsLocked="True" HorizontalAlignment="Stretch">
+            <ToolBar Band="1" BandIndex="1">
+                
+                <TextBlock FontWeight="Bold" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Name}" Height="24" Padding="25,0,25,0" />
+
+                <Separator />
+                
+                <Button x:Name="ExportImageButton" Command="{Binding ExportImageCommand}" ToolTip="Export Image" >
+                    <Image Style="{StaticResource ExportImageButtonImageStyle}" />
+                </Button>
+                
+                <ToggleButton x:Name="ShowOrHideRecordsButton" Command="{Binding ShowOrHideRecordsCommand}" IsThreeState="False" 
+                              ToolTip="Toggle Error and Warning Visibility"
+                          Visibility="{Binding HasRecords,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Image Style="{StaticResource ShowOrHideButtonImageStyle}" />
+                </ToggleButton>                
+            </ToolBar>
+        </ToolBarTray>
+            </DockPanel>
+</UserControl>

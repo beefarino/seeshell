@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="CodeOwls.SeeShell.Visualizations.Views.VisualizationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModels="clr-namespace:CodeOwls.SeeShell.Visualizations.ViewModels"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+   
+        <ViewModels:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <oxy:Plot x:Name="Plot" Model="{Binding PlotViewModel}" /> 
+    </Grid>
+</UserControl>

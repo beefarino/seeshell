@@ -1,0 +1,47 @@
+﻿TOPIC
+    about_SeeShell_Version
+
+VERSION
+    You are running version 2.0 of SeeShell.
+
+CHANGE LOG
+  Description
+    The changelog documents the changes placed in each release of
+    SeeShell.  Each item is identified by its case number(s) if
+    available.
+
+2.0 Open Source Release
+  * removed all visualizations except charts
+
+  * ported chart visualizations to OxyPlot
+
+1.1 Feature Release
+	* added support for series color to timeline visualizations
+		timelines now respect series color assignments.  series color
+		is shown in the event point and event title for series
+		assigned to the out-timeline -plot parameter values
+
+	* added support for series and ranges colors to grid visualizations
+		grids now respect series color and range assignments.  grid cell
+		values are drawn in series color if a scale is assigned; numeric
+		values are drawn in applicable range color if a range is
+		assigned to the series scale
+
+	* added dynamic "catchall" parameters to visualization cmdlets
+		all visualization cmdlets now support the dynamic parameter
+		syntax used by the datasources: drive new-item implementation
+		to define data series.  in short, all out-* cmdlets accept
+		dynamic parameters as described in about_seeshell_datasources
+		section titled DESCRIBING SERIES
+
+	* grids now support multiple data sources
+	* hardened several areas of timeline and grid data handling
+	* loosened requirements around license string formatting
+	* added Get-SeeShellLicese cmdlet to obtain readible license data
+	* fixed documentation errors for out-timeline parameters
+
+1.0 Initial Release
+
+SEE ALSO
+    http://www.codeowls.com/SeeShell
+    about_SeeShell_License

@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Send-SeeShellIncident</command:name>
+      <maml:description>
+        <maml:para>Prepares an email to the Code Owls LLC incident tracking system.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Send</command:verb>
+      <command:noun>SeeShellIncident</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet can be used to open a support case with Code Owls LLC.</maml:para>
+      <maml:para />
+      <maml:para>This cmdlet collects the following information about your current PowerShell session:</maml:para>
+               <maml:list>
+                <maml:listItem>
+                  <maml:para>The list of errors that have occurred.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>The history of commands run in this PowerShell session.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>The internal SeeShell log.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>Your SeeShell license string.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>The version of your SeeShell module.</maml:para>
+                </maml:listItem>
+              </maml:list>
+      <maml:para />
+      <maml:para>These data items are collated into a zip file on your Desktop.  The cmdlet will attempt to attach the zip file to the incident email.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <command:name>Send-SeeShellIncident</command:name>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>Message</maml:name>
+          <maml:description>
+            <maml:para>A short message to include with the incident report.  Use this to describe the activities that led to the incident.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>IncludeCommandHistory</maml:name>
+          <maml:description>
+            <maml:para>Specify False for this parameter to exclude your command history in the incident report.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>IncludeErrorHistory</maml:name>
+          <maml:description>
+            <maml:para>Specify False for this parameter to exclude the session error history in the incident report.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>Message</maml:name>
+        <maml:description>
+          <maml:para>A short message to include with the incident report.  Use this to describe the activities that led to the incident.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>IncludeCommandHistory</maml:name>
+        <maml:description>
+          <maml:para>Specify False for this parameter to exclude the session command history in the incident report.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>IncludeErrorHistory</maml:name>
+        <maml:description>
+          <maml:para>Specify False for this parameter to exclude the session error history in the incident report.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+          </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>This cmdlet does not produce pipeline output.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>This cmdlet does not produce pipeline output.</maml:para>
+        </maml:description>
+
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para>This cmdlet prepares the email, but does not send it.  The email must be sent manually.</maml:para>        
+            <maml:para />
+            <maml:para />
+      </maml:alert>
+      <maml:alert>
+        <maml:para>This cmdlet is executed automatically when SeeShell detects an unexpected error.</maml:para>        
+            <maml:para />
+            <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+       <command:example>
+          <maml:title>--------------  EXAMPLE 1 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>send-seeshellincident -message "I encountered unexpected behavior while attempting ..."</dev:code>
+          <dev:remarks>
+            <maml:para>Prepares (but does not send) a SeeShell incident email for the Code Owls LLC incident tracking system.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>about_SeeShell</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>

@@ -1,0 +1,342 @@
+﻿TOPIC
+    about_SeeShell_DataSources
+
+SHORT DESCRIPTION
+    All SeeShell data visualizations make use of one or more data
+    sources.  These data sources are responsible for emitting data,
+    defining data series, and identifying ranges on data series.
+
+LONG DESCRIPTION
+    SeeShell encapsulates the data for any visualization into an object
+    called a data source.  A data source is responsible for supplying
+    data items to visualizations, defining data series in the items, and
+    describing key ranges in each data series.
+    
+    Data sources can be created explicitly by the user, or implicitly by
+    SeeShell visualization cmdlets.  Data sources are created implicitly
+    when you pipe raw data or a script block to a SeeShell visualization
+    cmdlet.  For example, the following script creates a static implicit
+    data source containing a list of files:
+    
+      C:\PS> ls | out-grid -name files
+      
+    Data sources created from script blocks are processed asynchonously
+    from the PowerShell session.  They can produce and endless stream of
+    data items without hidnering the interactive PowerShell session.
+    For instance, this script defines a data source that emits
+    performance counter data continuously:
+    
+      { get-counter '\processor(0)\% user time' -continuous | select
+      -expand countersamples } | out-grid -name processor
+        
+    You can create data sources explicitly by using the new-item cmdlet
+    against the datasources: PowerShell drive.  For example:
+    
+      new-item -path datasources:/UserTime -value { get-counter
+      '\processor(0)\% user time' -continuous | select -expand
+      countersamples } 
+      
+  ASYNCHRONOUS DATA SOURCES AND SCOPE
+  
+    Data sources created from script blocks are executed outside of the
+    scope of the PowerShell session.  This implies that variables,
+    functions, and modules from your local session cannot be referenced
+    inside of these script blocks.  For example, consider the following
+    script:
+    
+      $value = 5; new-item datasources:/demo -value { $value };
+    
+    The $value variable declared on the first line exists in the main
+    PowerShell runspace.  The $value variable in the script block on the
+    second line will evaluate to $null, because the script block will be
+    evaluated in a unique PowerShell runspace.         
+
+  DATA SAMPLES
+  
+    SeeShell assumes that each object emitted from a data source is a
+    single sample of data.  Visualizations operate on a per-sample basis.
+    For instance, charts assume that each sample contains a related set
+    of data points; grids display one row for each sample.  The SeeShell
+    visualization cmdlets allow you to describe how to map a single data
+    sample to the visualization.  For instance, consider out-chart:
+    
+	ls | out-chart -name files -plot Length -by Name
+
+    The example above assumes each data sample will have a Length and
+    Name property.
+
+    There may be occasions where the data samples emitted from a data
+    source need to be reshaped to be usable in a SeeShell visualization.
+    For example, the get-counter PowerShell cmdlet produces a collection
+    of samples associated with a single timestamp:
+
+        C:\PS> get-counter '\physicaldisk(_total)\% disk time'
+        
+        Timestamp                 CounterSamples                                                                               
+        ---------                 --------------                                                                               
+        5/16/2012 11:23:20 AM     \\bubo\physicaldisk(_total)\% disk time :                                              
+                                  3.80492953435934                                                                                                                     
+                                                                                                                       
+    In this case the data sample needs to be reshaped to provide a
+    "flat" object that SeeShell can map onto a visualization:
+
+	C:\PS> get-counter '\physicaldisk(_total)\% disk time' | `
+	    select -expand CounterSamples
+
+        Path             : \\bubo\physicaldisk(_total)\% disk time
+        InstanceName     : _total
+        CookedValue      : 3.80492953435934
+        RawValue         : 707862375000
+        SecondValue      : 129816556424314304
+        MultipleCount    : 1
+        CounterType      : 542573824
+        Timestamp        : 5/16/2012 11:23:20 AM
+        Timestamp100NSec : 129816412424310000
+        Status           : 0
+        DefaultScale     : 0
+        TimeBase         : 10000000
+
+    Some visualization cmdlets, such as out-chart, provide parameters
+    that allow you to shape data samples and identify multiple series of
+    data in each sample.  For instance:
+
+        get-counter '\physicaldisk(_total)\*' -continuous | `
+	  out-chart -name DiskActivity -type spline -plot CookedValue `
+	  -by Timestamp -across CounterSamples -keyon Path
+
+    The above sample uses the out-chart -across and -keyon parameters to
+    express that each data sample contains a CounterSamples collection,
+    each item of which is a single series of data identified by its Path
+    parameter.  The result of this pipeline is a chart with one data 
+    series for each physical disk present on the system.
+
+  DATA SAMPLE SIZE LIMIT
+
+    To keep visualizations usable, data sources default to a limit of 20
+    samples.  Data sources use a first-in, first-out system of data
+    sample management.  Once the maximum limit is reached, the oldest
+    data sample is removed from the data source.
+
+    You cannot disable this limit.  You can change the default limit
+    when you define data sources explicitly.  When used against the
+    datasources: drive, the new-item cmdlet supports a MaxItemCount
+    parameter (aliased as Size and SampleSize) that is used to define
+    the data sample collection size limit; for instance:
+
+        new-item -path datasources:/FiftyItems -value { 0..49 } `
+	    -maxItemCount 50
+    
+    The example above defines a data source named FiftyItems capable of
+    holding 50 data samples.
+
+    Note that implicit data sources are held to the 20 sample limit.  If
+    you attempt to pipe more than 20 samples to a visualization cmdlet,
+    only the last 20 samples will be shown in the visualization.  If you
+    find your input results in more than 20 samples, try applying a sort
+    or filter to shrink the data set to an appropriate size:
+
+        dir c:\windows\system32 | ` 
+            sort Length -desc |   `
+            select -first 20 |    `
+            out-chart -name sys -type column -plot Length -by Name
+
+  DESCRIBING SERIES
+
+    You can define series on the data items emitted from the data 
+	source.  A data series is a description of a single property 
+	of the data item emitted from a data source.  For example, 
+	our performance counter will emit items with a property named 
+	CookedValue, and the values in this property will be scaled as 
+	a percentage.  We can define a series for the CookedValue 
+	property using the syntax:  
+
+        new-item -path datasources:/UserTime -value { 
+            get-counter '\processor(0)\% user time' -continuous | 
+            select -expand countersamples 
+        } -CookedValue 'Percentage'
+
+    Adding this tag informs SeeShell that the items in this data source
+    support a series named CookedValue that is scaled as a Percentage.
+
+    Data scale names are simple labels and have no bearing on the actual
+    visualization of a single data series.  However, defining multiple
+    data series with identical scale names implies that they should
+    share a scale when visualized together.  Consider:    
+
+        new-item -path datasources:/Random -value { 
+            while( $true ) { 
+                new-object psobject -prop @{ 
+		    'RandValue' = ( get-random -min 0 -max 100 ) 
+		}; 
+                sleep -seconds 3; 
+            }
+        } -RandValue 'Percentage'
+        
+        new-item -path datasources:/ProcTime -value { 
+            get-counter '\processor(0)\% processor time' -continuous | 
+            select -expand countersamples 
+        } -CookedValue 'Percentage'
+       
+    In this case, two data sources are defined, each emitting a property
+    that uses the Percentage scale.  If both the RandValue and
+    CookedValue series were graphed on the same chart, they would be
+    plotted against the same Y Axis because they are both use a scale
+    named Percentage.
+
+    Data series can include color preference as well.  Here, the
+    CookedValue property is scaled as a percentage and will be
+    visualized using the color Blue:
+
+        new-item -path datasources:/UserTime -value { 
+                get-counter '\processor(0)\% user time' -continuous | 
+                select -expand countersamples 
+            } -CookedValue 'Percentage','Blue'
+            
+    Now, when the CookedValue of this data source is visualized, it will
+    be done using the color Blue.
+
+    Data series can also define ranges for their data values.  For
+    example, this defines CookedValue as having a range of 0 to 100
+    (inclusive):
+
+        new-item -path datasources:/UserTime -value { 
+                get-counter '\processor(0)\% user time' -continuous | 
+                select -expand countersamples 
+            } -CookedValue 'Percentage','Blue',0,100
+
+    Between the minimum and maximum values, you can mark specific ranges
+    of interest using colors:
+
+        new-item -path datasources:/UserTime -value { 
+                get-counter '\processor(0)\% user time' -continuous | 
+                select -expand countersamples 
+            } -CookedValue 'Percentage','Blue',0,60,'yellow', `
+	    80,'orange',90,'red',100
+
+    The example above defines the following colored ranges:
+        
+	* 0-60: empty (no color)
+    * 60-80: Yellow
+    * 80-90: Orange
+    * 90-100: Red
+
+    The exact interpretation of these intermediate ranges and colors
+    varies by visualization.  For example, charts respect these values
+    by rawing marker lines on the Y Axis for the data series.  Timelines
+    draw event labels using the scale color.  Grids will display scaled
+    columns using the scale and range colors.
+	
+    The canonical format for defining a data series is as follows:
+
+    -<propertyname> <scale name>,<color name>,<ranges>
+
+    where:
+        
+	* <property name> is the name of the property (required)
+	* <scale name> is the name of the scale associated with the
+	  series (required)
+	* <color name> is a standard color name, an #RRGGBB color
+ 	  string, or the character ? to derive a random color.  This
+	  field is optional and is omitted, a random color choice will
+	  be generated
+	* <ranges> is a list of numbers and strings describing key value
+	  ranges in the data (optional).  Key value ranges can be
+	  described as:
+          * empty (e.g., 0,60)
+          * using a specific color name (e.g., 0,'Green',60)
+	  * using a color derived from the series color and range index
+	    (e.g., 0,?,60)
+	  * using an #RRGGBB color identifier (e.g., 0,"#00FFFF",60)
+
+    This syntax for defining data series can be used with the following 
+	cmdlets:
+	* new-item, when the path parameter specifies the datasource: drive
+	* any of the out-* cmdlets exposed by SeeShell.  E.g., out-grid, 
+	  out-chart, and out-timeline.
+
+EXAMPLES
+
+ -------------------------- EXAMPLE 1 --------------------------
+
+ C:\PS>new-item datasources:/CPU -value { get-counter '\processor(_total)\% processor time' -continuous | select -expand countersamples }
+
+
+ Description
+ -----------
+ This example defines a new data source named CPU.  The data source
+ script block emits formatted CPU performance counter data.  Note that
+ the -continuous parameter of get-counter will cause the data source to
+ emit new data once a second.  This data will be processed
+ asynchronously and will not block the PowerShell session.
+
+ To better understand the data emitted by this data source, try running
+ the script block as a set of regular PowerShell commands:
+
+   get-counter '\processor(_total)\% processor time' | select -expand countersamples   
+
+ -------------------------- EXAMPLE 2 --------------------------
+
+ C:\PS>out-grid -name CPUGrid -input datasources:/CPU 
+
+
+ Description
+ -----------
+ This example shows how to use datasources: drive paths with
+ visualization cmdlets.  The data source named CPU created in EXAMPLE 1
+ is referenced by its PowerShell path in the call to out-grid.
+
+ -------------------------- EXAMPLE 3 --------------------------
+
+ C:\PS>new-item datasources:/ProcTime -value { 
+    get-counter '\processor(_total)\% processor time' -continuous | 
+    select -expand countersamples 
+    } -CookedValue 'Percentage','Blue',0,50,?,80,?,90,Red,100 -Timestamp 'Instant'
+
+
+ Description
+ -----------
+ This example is an extension of EXAMPLE 1 that defines data series for
+ the data source.  In particular, two series are defined for the
+ ProcTime datasource.
+
+ The CookedValue property is defined as a Percentage.  The series data
+ will be rendered Blue, with a set of data ranges defined as follows:
+
+   * a minimum value of 0
+   * a maximum value of 100
+   * a colored range from 50 to 80 that will be shaded lighter blue
+   * a colored range from 80 to 90 that will be shaded darker blue
+   * a colored range from 90 to 100 that will be shaded red
+
+ The Timestamp property is defined as an Instant series.  No color or
+ ranges are defined for Instant.           
+
+ -------------------------- EXAMPLE 4 --------------------------
+
+ C:\PS>new-item datasources:/ProcTime -value { 
+    get-counter '\processor(_total)\% processor time' -continuous | 
+    select -expand countersamples 
+    } -SampleSize 60
+
+
+ Description
+ -----------
+ This example is an extension of EXAMPLE 1.  In this example, the data
+ item count limit is increased from the default to 60 items.
+
+ -------------------------- EXAMPLE 5 --------------------------
+
+ C:\PS>0..10 | out-chart -name Demo -type Line -plot {$_} -by {$_}
+
+
+ Description
+ -----------
+ This example creates an implicit data source.  The data source contains
+ the numbers 0 through 10.  The data source is created implicitly when
+ the raw data is piped to the out-chart cmdlet.
+
+SEE ALSO    
+    about_SeeShell
+    about_SeeShell_Charts
+    about_SeeShell_Grids
+    about_SeeShell_Timelines

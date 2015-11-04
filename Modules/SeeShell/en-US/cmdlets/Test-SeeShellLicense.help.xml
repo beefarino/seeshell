@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Test-SeeShellLicense</command:name>
+      <maml:description>
+        <maml:para>Verifies the SeeShell license for the current user.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Test</command:verb>
+      <command:noun>SeeShellLicense</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Verifies the SeeShell license for the current user, outputting a True value to the pipeline if the current license is valid and Flase if it is not.  This cmdlet only verifies that the license will allow SeeShell to be used; it does not differentiate between trial and full licenses.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <command:name>Test-SeeShellLicense</command:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None.</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+          </maml:description>
+        </dev:type>
+          <maml:description>
+            <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+          </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>True if the current user's SeeShell license is valid; False otherwise.</maml:para>
+          </maml:description>
+        </dev:type>
+          <maml:description>
+            <maml:para>True if the current user's SeeShell license is valid; False otherwise.</maml:para>
+          </maml:description>
+
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+
+    <command:examples>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 1 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>test-seeshelllicense</dev:code>
+          <dev:remarks>
+            <maml:para>Validates the SeeShell license for the current user.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>about_SeeShell_License</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Install-SeeShellLicense</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>      
+    </maml:relatedLinks>
+  </command:command>

@@ -1,0 +1,181 @@
+TOPIC
+    about_SeeShell_Charts
+
+SHORT DESCRIPTION
+    SeeShell provides over two dozen types of charts for your data
+    visualization needs.
+    
+    SeeShell allows you to overlay multiple charts with independent
+    series of data into a single visualization.
+
+LONG DESCRIPTION
+    SeeShell provides over two dozen types of charts for your data
+    visualization needs.  Each available chart series can be classified
+    in two ways:
+
+      * SHAPE 
+      * X AXIS DATA TYPE
+        
+    SHAPE
+    
+    A chart can be either LINEAR or RADIAL in shape.  
+        
+    LINEAR charts display as traditional Cartesean plots, with an X axis
+    that runs horizontally and a Y axis that runs vertically.
+        
+    RADIAL charts display as circular plots, with an X axis that
+    corresponds to an angle in the plot and a Y axis that corresponds to
+    a radius on the plot.
+        
+    SeeShell can overlay chart series of the same shape into a single
+    chart, so that axes are shared where possible and the plot area is
+    synchronized across data sources.  SeeShell cannot combine linear
+    and radial chart series into a single chart, since the axes layout
+    is so different between the two shapes.
+        
+    X AXIS DATA TYPE The X Axis of a chart series can be classified as
+    one of three data types:
+	   
+       * CATEGORY data 
+       * NUMERIC data 
+       * ANGLE data
+            
+    CATEGORY data is qualitative in nature.  A data item either belongs
+    to a particular category or it does not, and it cannot belong to
+    more than one category in the same series.  Examples of categorical
+    data include:
+
+	* names 
+	* id numbers 
+	* dates and times 
+	* letter grades
+
+    NUMERIC data is quantitative in nature.  That is, is represents a
+    continuum of possible values.  Examples of numeric data include:
+
+	* age
+	* cost
+	* count                    
+	* population
+	* percentages
+
+    ANGLE data is a subset of numeric data that describes an angle.  In
+    particular, the value of the angle must be between 0.0 and 360.0.
+
+
+    AVAILABLE CHART SERIES TYPES
+
+    The following table defines each available chart series type name,
+    and includes the series shape and X Axis data type classification.
+
+        +-------------------+------------+-----------+
+        | chart series type | shape      | X Axis    |
+        |-------------------|------------|-----------|
+        |  Area             | linear     | category  |
+        |  Column           | linear     | category  |
+        |  Line             | linear     | category  |
+        |  RangeArea        | linear     | category  |
+        |  RangeColumn      | linear     | category  |
+        |  SplineArea       | linear     | category  |
+        |  Spline           | linear     | category  |
+        |  StepArea         | linear     | category  |
+        |  StepLine         | linear     | category  |
+        |  Waterfall        | linear     | category  |
+        |                   |            |           |
+        |  PolarArea        | radial     | angle     |
+        |  PolarLine        | radial     | angle     |
+        |  PolarScatter     | radial     | angle     |
+        |  PolarSplineArea  | radial     | angle     |
+        |  PolarSpline      | radial     | angle     |
+        |                   |            |           |
+        |  RadialArea       | radial     | category  |
+        |  RadialColumn     | radial     | category  |
+        |  RadialLine       | radial     | category  |
+        |  RadialPie        | radial     | category  |
+        |                   |            |           |
+        |  Bubble           | linear     | numeric   |
+        |  ScatterLine      | linear     | numeric   |
+        |  Scatter          | linear     | numeric   |
+        |  ScatterSpline    | linear     | numeric   |
+        |                   |            |           |
+        |  Timeline[*]      | linear     | datetime  |
+        +-------------------+------------+-----------+    
+        
+        [*] the Timeline series is a special case that 
+	can ONLY be used when the following conditions exist: 
+	    1) the chart already contains a series that is LINEAR and
+		CATEGORICAL 
+	    2) the existing series identified in (1) has an
+		X Axis based on the DateTime datatype.
+
+    DATA SERIES COLOR AND SCALE SUPPORT
+    
+    All chart visualizations use the color assigned to data series as
+    the primary chart series color.  For instance, the columns of a
+    column series plot will be drawn in the color assigned to the data
+    series being plotted.
+
+    Chart visualizations use scale names to share axes where possible.
+    If two data series use the same scale name, it is assumed they
+    should be plotted to the same axis.  If the series use different
+    scale names (or no scale names), it is assumed they should be
+    plotted to unique axes.
+
+    Scale ranges are drawn in chart visualizations as marker lines on
+    the Y Axis values representing the bottom of the range.  For
+    example, an orange scale range from 65 to 90 will result in an
+    orange marker line at the value 65 on the Y Axis for the series.
+
+EXAMPLES
+
+ -------------------------- EXAMPLE 1 --------------------------
+
+ C:\PS>dir ~ | out-chart -name HomeFiles -type Column -plot Length -by Name
+
+
+ Description
+ -----------
+ This example plots the size of each file in your home folder as a
+ column chart.
+
+
+ -------------------------- EXAMPLE 2 --------------------------
+
+ C:\PS>dir ~ | out-chart -name FileSizeAndLines -type Column `
+     -plot Length,{$_ | get-content | measure -line | select -exp Lines}`
+     -by Name
+
+
+ Description
+ -----------
+ This example plots two series of data based on the files in your home
+ folder.  The first series is the length of each file, and the second is
+ the line count of each file.
+
+ -------------------------- EXAMPLE 3 --------------------------
+
+ C:\PS>{ get-counter '\processors(0)\% processor time' -continuous `
+     | select -expand CounterSamples } | `
+     out-chart -name CPU -type Spline -plot CookedValue -by Timestamp
+
+
+ Description
+ -----------
+ This example monitors total CPU processor time in a spline graph.  The
+ graph will continue to update until the PowerShell session is ended.
+
+ The get-counter cmdlet returns a collection of timestamped performance
+ counter samples.  These samples are contained in the CounterSamples
+ property of each sample set.
+ 
+ For details on the data being plotted, try running the data source
+ pipeline components on their own:
+ 
+   get-counter '\processors(_total)\% processor time' -continuous
+   
+   get-counter '\processors(_total)\% processor time' -continuous |
+       select -expand CounterSamples 
+
+SEE ALSO
+    out-chart
+

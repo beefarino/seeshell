@@ -1,0 +1,37 @@
+namespace CodeOwls.SeeShell.Common.Charts
+{
+    public enum ChartSeriesType
+    {
+        Bubble,
+        Area,
+        //Bar,
+        Column,
+        Line,
+        RangeArea,
+        RangeColumn,
+        SplineArea,
+        Spline,
+        StepArea,
+        StepLine,
+        Waterfall,
+        //FinancialPrice,                                                                                                   
+        PolarArea,
+        PolarLine,
+        PolarScatter,
+        PolarSplineArea,
+        PolarSpline,
+        RadialArea,
+        RadialColumn,
+        RadialLine,
+        RadialPie,
+        ScatterLine,
+        Scatter,
+        ScatterSpline,
+        //StackedBar,                                                                                                       
+        //Stacked100Bar,                                                                                                    
+        //StackedColumn,                                                                                                    
+        //Stacked100Column,                                                                                                 
+        //StackedFragment,                                                                                                  
+        Timeline
+    }
+}

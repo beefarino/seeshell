@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Out-Grid</command:name>
+      <maml:description>
+        <maml:para>Visualizes data to a new or existing grid.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Out</command:verb>
+      <command:noun>Grid</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Visualizes data to a new or existing grid.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <command:name>Out-Grid</command:name>
+        <command:parameter required="True" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name of the visualization.  Visualization names are unique within visualization types.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        </command:parameter>
+
+        <command:parameter required="True" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="">
+          <maml:name>InputObject</maml:name>
+          <maml:description>
+            <maml:para>The data source to visualize.  This can be one of the following:</maml:para>
+            <maml:list>
+                <maml:listItem>
+                  <maml:para>A data source object.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>The PowerShell path to a data source item on the datasources: drive.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>A script block that emits data items asynchronously.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>A collection of objects that represent the data items.</maml:para>
+                </maml:listItem>
+              </maml:list>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Object[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>SeriesTable</maml:name>
+          <maml:description>
+            <maml:para>Series definitions to apply to the current visualization.  This parameter must be specified as a hashtable.  The hashtable keys must be:</maml:para>
+            <maml:list>
+              <maml:listItem>
+                <maml:para>A string value representing the data item property name to which the series applies.</maml:para>
+              </maml:listItem>
+              <maml:listItem>
+                <maml:para>A regular expression object used to match property names.  The series definition is applied to all matching properties.</maml:para>
+              </maml:listItem>
+            </maml:list>
+            <maml:para>
+              The hashtable values must be series definitions in the form of &lt;scale name&gt;, &lt;color name&gt;, &lt;ranges&gt;
+            </maml:para>
+            <maml:para>where:</maml:para>
+            <maml:list>
+              <maml:listItem>
+                <maml:para>&lt;scale name&gt; is the name of the scale associated with the series (required)</maml:para>
+              </maml:listItem>
+              <maml:listItem>
+                <maml:para>&lt;color name&gt; is a standard color name, an #RRGGBB color string, or the character ? to derive a random color.  This field is optional and is omitted, a random color choice will be generated</maml:para>
+              </maml:listItem>
+              <maml:listItem>
+                <maml:para>
+                  &lt;ranges&gt; is a list of numbers and strings describing key value ranges in the data (optional).  Key value ranges can be described as:
+                </maml:para>
+                <maml:list>
+                  <maml:listItem>
+                    <maml:para>empty (e.g., 0,60)</maml:para>
+                  </maml:listItem>
+                  <maml:listItem>
+                    <maml:para>using a specific color name (e.g., 0,'Green',60)</maml:para>
+                  </maml:listItem>
+                  <maml:listItem>
+                    <maml:para>using a color derived from the series color and range index  (e.g., 0,?,60)</maml:para>
+                  </maml:listItem>
+                  <maml:listItem>
+                    <maml:para>using an #RRGGBB color identifier (e.g., 0,"#00FFFF",60)</maml:para>
+                  </maml:listItem>
+
+                </maml:list>
+              </maml:listItem>
+            </maml:list>
+
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Collections.Hashtable</command:parameterValue>          
+        </command:parameter>
+
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="True" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+            <maml:para>The name of the visualization.  Visualization names are unique within visualization types.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="True" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="">
+        <maml:name>InputObject</maml:name>
+        <maml:description>
+            <maml:para>The data source to visualize.  This can be one of the following:</maml:para>
+            <maml:list>
+                <maml:listItem>
+                  <maml:para>A data source object.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>The PowerShell path to a data source item on the datasources: drive.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>A script block that emits data items asynchronously.</maml:para>
+                </maml:listItem>
+                <maml:listItem>
+                  <maml:para>A collection of objects that represent the data items.</maml:para>
+                </maml:listItem>
+              </maml:list>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>SeriesTable</maml:name>
+        <maml:description>
+          <maml:para>Series definitions to apply to the current visualization.  This parameter must be specified as a hashtable.  The hashtable keys must be:</maml:para>
+          <maml:list>
+            <maml:listItem>
+              <maml:para>A string value representing the data item property name to which the series applies.</maml:para>
+            </maml:listItem>
+            <maml:listItem>
+              <maml:para>A regular expression object used to match property names.  The series definition is applied to all matching properties.</maml:para>
+            </maml:listItem>
+          </maml:list>
+          <maml:para>
+            The hashtable values must be series definitions in the form of &lt;scale name&gt;, &lt;color name&gt;, &lt;ranges&gt;
+          </maml:para>
+          <maml:para>where:</maml:para>
+          <maml:list>
+            <maml:listItem>
+              <maml:para>&lt;scale name&gt; is the name of the scale associated with the series (required)</maml:para>
+          </maml:listItem>
+            <maml:listItem>
+              <maml:para>&lt;color name&gt; is a standard color name, an #RRGGBB color string, or the character ? to derive a random color.  This field is optional and is omitted, a random color choice will be generated</maml:para>
+          </maml:listItem>
+            <maml:listItem>
+              <maml:para>
+              &lt;ranges&gt; is a list of numbers and strings describing key value ranges in the data (optional).  Key value ranges can be described as:
+                </maml:para>
+              <maml:list>
+                <maml:listItem>
+                  <maml:para>empty (e.g., 0,60)</maml:para>
+              </maml:listItem>
+                <maml:listItem>
+                  <maml:para>using a specific color name (e.g., 0,'Green',60)</maml:para>
+              </maml:listItem>
+                <maml:listItem>
+                  <maml:para>using a color derived from the series color and range index  (e.g., 0,?,60)</maml:para>
+              </maml:listItem>
+                <maml:listItem>
+                  <maml:para>using an #RRGGBB color identifier (e.g., 0,"#00FFFF",60)</maml:para>
+              </maml:listItem>
+
+              </maml:list>
+            </maml:listItem>
+          </maml:list>
+
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Collections.Hashtable</command:parameterValue>
+        <dev:type>
+          <maml:name>Hashtable</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Data Source</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>A reference to a data source object or a string containing the PowerShell path to a data source item on the datasources: drive.  For information on creating data sources explicitly, see: about_SeeShell_DataSources.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>A reference to a data source object or a string containing the PowerShell path to a data source item on the datasources: drive.  For information on creating data sources explicitly, see: about_SeeShell_DataSources.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>ScriptBlock</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>A script block that emits data samples.  Note that the script block will be run asynchronously.  In addition, it will be evaluated in a runspace outside of the main PowerShell session, and will not be able to reference the local runspace state.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+            <maml:para>A script block that emits data samples.  Note that the script block will be run asynchronously.  In addition, it will be evaluated in a runspace outside of the main PowerShell session, and will not be able to reference the local runspace state.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Object[]</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>A list of objects to visualize.  The objects are considered a complete data set, with each object a single data sample.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description><maml:para>A list of objects to visualize.  The objects are considered a complete data set, with each object a single data sample.</maml:para></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description><maml:para>This cmdlet does not produce pipeline output.</maml:para></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para>If the InputObject parameter is not an existing data source, an implicit data source will be created.  Implicit data sources are limited to the default sample size of 20.  If you require a larger sample size, create a data source explicitly.</maml:para>
+        <maml:para/>
+        <maml:para/>
+      </maml:alert>
+      <maml:alert>
+        <maml:para>Script blocks can be piped to visualization cmdlets, but cannot be specified as parameters.  This is due to the fact that script blocks are used as filters on pipeline input in PowerShell.</maml:para>        
+        <maml:para/>
+        <maml:para/>
+      </maml:alert>      
+    </maml:alertSet>
+    <command:examples>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 1 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>ls | out-grid -name Files</dev:code>
+          <dev:remarks>
+            <maml:para>Creates a grid that plots the properties for the list of files.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 2 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>{ get-counter '\processor(_total)\% processor time' -continuous | select -expand countersamples } | out-grid -name CPU</dev:code>
+          <dev:remarks>
+            <maml:para>Creates a grid that tracks performance counter data.</maml:para>
+            <maml:para />
+            <maml:para>The script block will be executed asynchronously from the main PowerShell session thread and will not stop producing data until the PowerShell session is ended.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+\      </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>about_SeeShell_DataSources</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>about_SeeShell_Grids</maml:linkText>      
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
