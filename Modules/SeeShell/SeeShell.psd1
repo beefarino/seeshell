@@ -77,11 +77,10 @@ NestedModules = @(
   'bin/CodeOwls.SeeShell.PowerShell.Providers.dll'
   'bin/CodeOwls.SeeShell.Providers.Tests.dll'
   'bin/CodeOwls.SeeShell.Visualizations.dll'
-  'bin/Ionic.Zip.Reduced.dll'
+  'bin/Ionic.Zip.dll'
   'bin/log4net.dll'
   'bin/OxyPlot.dll'
   'bin/OxyPlot.Wpf.dll'
-  'bin/OxyPlot.Xps.dll'
 )
 
 # Functions to export from this module
